@@ -1,0 +1,10 @@
+* exclude files
+datasets/
+.idea/
+.vscode/
+__pycache__/
+*.log
+*.png
+*.h5
+*.txt
+*.ttf
