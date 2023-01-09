@@ -2,6 +2,7 @@
 datasets/
 .idea/
 .vscode/
+.venv/
 __pycache__/
 *.log
 *.png

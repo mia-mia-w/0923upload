@@ -111,7 +111,25 @@ def cal_confusion_matrix(y_test, y_pred, f):
     # print("support:", support)
 
     report_str = classification_report(
-        y_test, y_pred, target_names=["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"]
+        y_test,
+        y_pred,
+        target_names=[
+            "a",
+            "b",
+            "c",
+            "d",
+            "e",
+            "f",
+            "g",
+            "h",
+            "i",
+            "j",
+            "k",
+            "l",
+            "m",
+            "n",
+            "o",
+        ],
     )
     print(report_str)
 
@@ -141,13 +159,15 @@ if __name__ == "__main__":
     # x, y = dataloader.load_dataset(dataset="aira-uas", feature="stft_chroma")
     # x, y = dataloader.load_dataset(dataset="droneaudiodataset/binary_drone_audio", feature="mel")
     x, y = dataloader.load_dataset(
-        dataset="Drone_Dataset/0823_10_classes", feature="mfcc"
+        dataset="Drone_Dataset/1006_15_classes", feature="mfcc"
     )
 
+    print(y)
     num_of_classes = len(np.unique(y))
+    print(num_of_classes)
     y = keras.utils.to_categorical(y, num_classes=num_of_classes)
 
-    f = open("multi-run-batch32-epoch100.log", "w")
+    f = open("mia-multi-run-batch32-epoch100.log", "w")
     loss_list, acc_list, time_list = [], [], []
     for i in range(1, 11):
         # training and testing set split

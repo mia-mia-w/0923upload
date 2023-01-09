@@ -71,12 +71,12 @@ def cnn_model(input_shape, num_class):
 
 def rnn_lstm(input_shape, num_class):
     model = keras.Sequential()
-    model.add(LSTM(16, input_shape=(input_shape, 1)))
-    model.add(Dropout(0.2))
-    model.add(Dense(16, activation="relu"))
-    model.add(Dense(8, activation="relu"))
-    model.add(Dropout(0.4))
-    model.add(Dense(4, activation="relu"))
+    model.add(LSTM(64, input_shape=(input_shape, 1)))
+    # model.add(Dropout(0.2))
+    # model.add(Dense(16, activation="relu"))
+    # model.add(Dense(8, activation="relu"))
+    # model.add(Dropout(0.4))
+    model.add(Dense(32, activation="relu"))
     model.add(Dropout(0.4))
     model.add(Dense(num_class, activation="softmax"))
     model.compile(
