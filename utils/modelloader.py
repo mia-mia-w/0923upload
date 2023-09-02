@@ -9,10 +9,11 @@ from keras.layers import (
     MaxPooling1D,
     MaxPooling2D,
 )
+import numpy as np
 
 
 def get_model(
-        model_name: str, n_neighbors: int = 5, input_shape: int = 0, num_class: int = 0
+    model_name: str, n_neighbors: int = 5, input_shape: int = 0, num_class: int = 0
 ):
     """
     Return a model with given configurations
@@ -56,11 +57,12 @@ def mlp_model():
 
 def cnn_model(input_shape, num_class):
     model = Sequential()
-    model.add(Conv1D(16, 3, activation="relu", input_shape=(input_shape, 1)))
-    model.add(Conv1D(4, 3, activation="relu"))
+    model.add(Conv1D(32, 3, activation="relu", input_shape=(input_shape, 1)))
+    model.add(Dropout(0.37))
+    model.add(Conv1D(32, 3, activation="relu"))
     model.add(Flatten())
-    model.add(Dense(32, activation="relu"))
-    model.add(Dropout(0.4))
+    model.add(Dense(128, activation="relu"))
+    model.add(Dropout(0.5))
     model.add(Dense(num_class, activation="softmax"))
     model.compile(
         optimizer="adam", loss="categorical_crossentropy", metrics=["accuracy"]
@@ -72,16 +74,20 @@ def cnn_model(input_shape, num_class):
 def rnn_lstm(input_shape, num_class):
     model = keras.Sequential()
     model.add(LSTM(64, input_shape=(input_shape, 1)))
-    # model.add(Dropout(0.2))
-    # model.add(Dense(16, activation="relu"))
-    # model.add(Dense(8, activation="relu"))
+    # model.add(LSTM(16, input_shape=(input_shape, 1)))
+    # model.add(keras.layers.LSTM(64))
+    model.add(Dropout(0.3))
+    # model.add(Dense(128, activation="relu"))
+    # model.add(Dense(64, activation="relu"))
     # model.add(Dropout(0.4))
-    model.add(Dense(32, activation="relu"))
+    model.add(Dense(48, activation="relu"))
     model.add(Dropout(0.4))
     model.add(Dense(num_class, activation="softmax"))
+    print(model.summary())
     model.compile(
-        optimizer="adam", loss="sparse_categorical_crossentropy", metrics=["accuracy"]
+        optimizer="adam", loss="categorical_crossentropy", metrics=["accuracy"]
     )
+    print("LSTM model loaded")
     return model
 
 
@@ -89,7 +95,16 @@ def cnn_mnist(input_shape, num_class):
     print("Convolutional Neural Network Structure: ")
     model = Sequential()
     # model.add(Input(input_shape=input_shape))
-    model.add(Conv2D(4, 3, strides=2, padding="same", activation="relu", input_shape=(input_shape, 1), ))
+    model.add(
+        Conv2D(
+            4,
+            3,
+            strides=2,
+            padding="same",
+            activation="relu",
+            input_shape=(input_shape, 1),
+        )
+    )
     model.add(BatchNormalization())
     model.add(MaxPooling2D(pool_size=(2, 2)))
     model.add(BatchNormalization())

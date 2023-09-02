@@ -100,9 +100,9 @@ def load_dataset(dataset: str, feature: str = None):
                     fn = os.path.join(drone_audio_dir, fn)
                     data, samplerate = sf.read(fn, dtype="float32")
                     X.append(data)
-                    if sub_dir == "DJI_Matrice200":
+                    if sub_dir == "DJI_Matrice200_5s":
                         y.append(0)
-                    elif sub_dir == "DJI_Mavic2pro":
+                    elif sub_dir == "DJI_Mavic2pro_5s":
                         y.append(1)
                     elif sub_dir == "DJI_Phantom4_5s":
                         y.append(2)
@@ -308,6 +308,210 @@ def load_dataset(dataset: str, feature: str = None):
                     elif sub_dir == "Yuneec":
                         y.append(9)
         print("Reading finished.")
+
+
+    elif dataset == "Drone_Dataset/0308_22_classes":
+        index = 0
+        parent_dir = (
+            "/home/mia/drone-classification/datasets/Drone_Dataset/0308_22_classes"
+        )
+        sub_dirs = os.listdir(parent_dir)
+        for sub_dir in sub_dirs:  # for loop 3s_DJI
+            drone_audio_dir = os.path.join(parent_dir, sub_dir)
+            if os.path.isdir(drone_audio_dir):
+                # for sub_sub_dir in os.listdir(drone_audio_dir):
+                #     # for loop binary_drone_audio & multiclass_drone_audio
+                #     recording_dir = os.path.join(drone_audio_dir, sub_sub_dir)
+                #     if os.path.isdir(recording_dir):
+                for fn in os.listdir(drone_audio_dir):
+                    print(sub_dir)
+                    fn = os.path.join(drone_audio_dir, fn)
+                    print(str(index) + ": " + fn)
+                    index += 1
+                    data, samplerate = sf.read(fn, dtype="float32")
+                    X.append(data)
+                    if sub_dir == "David_Tricopter":
+                        y.append(0)
+                    elif sub_dir == "DJI_Matrice200":
+                        y.append(1)
+                    elif sub_dir == "DJI_Matrice200_V2":
+                        y.append(2)
+                    elif sub_dir == "DJI_Mavic_Air2":
+                        y.append(3)
+                    elif sub_dir == "DJI_Mavic_Mini1":
+                        y.append(4)
+                    elif sub_dir == "DJI_Mavic_Mini2":
+                        y.append(5)
+                    elif sub_dir == "DJI_Mavic2pro":
+                        y.append(6)
+                    elif sub_dir == "DJI_Mavic2s":
+                        y.append(7)
+                    elif sub_dir == "DJI_Phantom2":
+                        y.append(8)
+                    elif sub_dir == "DJI_Phantom4":
+                        y.append(9)
+                    elif sub_dir == "DJI_Tello_TT":
+                        y.append(10)
+                    elif sub_dir == "EvoII":
+                        y.append(11)
+                    elif sub_dir == "Hasakee_Q11":
+                        y.append(12)
+                    elif sub_dir == "PhenoBee":
+                        y.append(13)
+                    elif sub_dir == "Swellpro_Splash_3_plus":
+                        y.append(14)
+                    elif sub_dir == "Syma_X5SW":
+                        y.append(15)
+                    elif sub_dir == "Syma_X5UW":
+                        y.append(16)
+                    elif sub_dir == "Syma_X20":
+                        y.append(17)
+                    elif sub_dir == "Syma_X20P":
+                        y.append(18)     
+                    elif sub_dir == "Syma_X26":
+                        y.append(19)
+                    elif sub_dir == "UDIU46":
+                        y.append(20)
+                    elif sub_dir == "Yuneec":
+                        y.append(21)
+                    # y.append(sub_dir)
+        print("Reading finished.")
+
+    elif dataset == "Drone_Dataset/0828_23_classes":
+        index = 0
+        parent_dir = (
+            "/home/mia/drone-classification/datasets/Drone_Dataset/0828_23_classes"
+        )
+        sub_dirs = os.listdir(parent_dir)
+        for sub_dir in sub_dirs:  # for loop 3s_DJI
+            drone_audio_dir = os.path.join(parent_dir, sub_dir)
+            if os.path.isdir(drone_audio_dir):
+                # for sub_sub_dir in os.listdir(drone_audio_dir):
+                #     # for loop binary_drone_audio & multiclass_drone_audio
+                #     recording_dir = os.path.join(drone_audio_dir, sub_sub_dir)
+                #     if os.path.isdir(recording_dir):
+                for fn in os.listdir(drone_audio_dir):
+                    print(sub_dir)
+                    fn = os.path.join(drone_audio_dir, fn)
+                    print(str(index) + ": " + fn)
+                    index += 1
+                    data, samplerate = sf.read(fn, dtype="float32")
+                    X.append(data)
+                    if sub_dir == "David_Tricopter":
+                        y.append(0)
+                    elif sub_dir == "DJI_Matrice600_P":
+                        y.append(1)
+                    elif sub_dir == "DJI_Matrice200":
+                        y.append(2)
+                    elif sub_dir == "DJI_Matrice200_V2":
+                        y.append(3)
+                    elif sub_dir == "DJI_Mavic_Air2":
+                        y.append(4)
+                    elif sub_dir == "DJI_Mavic_Mini1":
+                        y.append(5)
+                    elif sub_dir == "DJI_Mavic_Mini2":
+                        y.append(6)
+                    elif sub_dir == "DJI_Mavic2pro":
+                        y.append(7)
+                    elif sub_dir == "DJI_Mavic2s":
+                        y.append(8)
+                    elif sub_dir == "DJI_Phantom2":
+                        y.append(9)
+                    elif sub_dir == "DJI_Phantom4":
+                        y.append(10)
+                    elif sub_dir == "DJI_Tello_TT":
+                        y.append(11)
+                    elif sub_dir == "EvoII":
+                        y.append(12)
+                    elif sub_dir == "Hasakee_Q11":
+                        y.append(13)
+                    elif sub_dir == "PhenoBee":
+                        y.append(14)
+                    elif sub_dir == "Swellpro_Splash_3_plus":
+                        y.append(15)
+                    elif sub_dir == "Syma_X5SW":
+                        y.append(16)
+                    elif sub_dir == "Syma_X5UW":
+                        y.append(17)
+                    elif sub_dir == "Syma_X20":
+                        y.append(18)
+                    elif sub_dir == "Syma_X20P":
+                        y.append(19)     
+                    elif sub_dir == "Syma_X26":
+                        y.append(20)
+                    elif sub_dir == "UDIU46":
+                        y.append(21)
+                    elif sub_dir == "Yuneec":
+                        y.append(22)
+                    # y.append(sub_dir)
+        print("Reading finished.")
+
+
+
+
+    elif dataset == "Drone_Dataset/1006_20_classes":
+        index = 0
+        parent_dir = (
+            "/home/mia/drone-classification/datasets/Drone_Dataset/1006_20_classes"
+        )
+        sub_dirs = os.listdir(parent_dir)
+        for sub_dir in sub_dirs:  # for loop 3s_DJI
+            drone_audio_dir = os.path.join(parent_dir, sub_dir)
+            if os.path.isdir(drone_audio_dir):
+                # for sub_sub_dir in os.listdir(drone_audio_dir):
+                #     # for loop binary_drone_audio & multiclass_drone_audio
+                #     recording_dir = os.path.join(drone_audio_dir, sub_sub_dir)
+                #     if os.path.isdir(recording_dir):
+                for fn in os.listdir(drone_audio_dir):
+                    print(sub_dir)
+                    fn = os.path.join(drone_audio_dir, fn)
+                    print(str(index) + ": " + fn)
+                    index += 1
+                    data, samplerate = sf.read(fn, dtype="float32")
+                    X.append(data)
+                    if sub_dir == "David_Tricopter":
+                        y.append(0)
+                    elif sub_dir == "DJI_Matrice200":
+                        y.append(1)
+                    elif sub_dir == "DJI_Matrice200_V2":
+                        y.append(2)
+                    elif sub_dir == "DJI_Mavic_Air2":
+                        y.append(3)
+                    elif sub_dir == "DJI_Mavic_Mini1":
+                        y.append(4)
+                    elif sub_dir == "DJI_Mavic_Mini2":
+                        y.append(5)
+                    elif sub_dir == "DJI_Mavic2pro":
+                        y.append(6)
+                    elif sub_dir == "DJI_Mavic2s":
+                        y.append(7)
+                    elif sub_dir == "DJI_Phantom2":
+                        y.append(8)
+                    elif sub_dir == "DJI_Phantom4":
+                        y.append(9)
+                    elif sub_dir == "DJI_Tello_TT":
+                        y.append(10)
+                    elif sub_dir == "EvoII":
+                        y.append(11)
+                    elif sub_dir == "PhenoBee":
+                        y.append(12)
+                    elif sub_dir == "Swellpro_Splash_3_plus":
+                        y.append(13)
+                    elif sub_dir == "Syma_X5SW":
+                        y.append(14)
+                    elif sub_dir == "Syma_X5UW":
+                        y.append(15)
+                    elif sub_dir == "Syma_X20":
+                        y.append(16)
+                    elif sub_dir == "Syma_X20P":
+                        y.append(17)
+                    elif sub_dir == "UDIU46":
+                        y.append(18)
+                    elif sub_dir == "Yuneec":
+                        y.append(19)
+                    # y.append(sub_dir)
+        print("Reading finished.")
+
 
     elif dataset == "Drone_Dataset/1006_15_classes":
         index = 0

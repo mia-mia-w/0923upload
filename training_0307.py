@@ -2,6 +2,8 @@ import time
 import warnings
 import numpy as np
 import matplotlib.pyplot as plt
+import pandas as pd
+import seaborn as sns
 
 from tensorflow import keras
 from utils import dataloader, modelloader
@@ -9,6 +11,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import (
     classification_report,
     accuracy_score,
+    confusion_matrix,
     multilabel_confusion_matrix,
 )
 from sklearn.metrics import precision_recall_fscore_support as score
@@ -32,17 +35,6 @@ def training(model, training_data, training_labels, epochs=100, **kwargs):
         training_data, training_labels, epochs=epochs, validation_data=(x_test, y_test)
     )
 
-    # for RNN
-
-    # training_history = model.fit(
-    #     training_data,
-    #     training_labels,
-    #     batch_size=32,
-    #     epochs=epochs,
-    #     validation_data=(x_test, y_test),
-    # )
-    # for KNN
-    # training_history = model.fit(training_data, training_labels)
 
     # 5. save model
     # 6. save training configurations
@@ -67,18 +59,10 @@ def training(model, training_data, training_labels, epochs=100, **kwargs):
 
 
 def plot_history(training_history):
+    print("This is a test...")
     # list all data in history
     plt.figure()
-    plt.plot(training_history.history["accuracy"])
-    plt.plot(training_history.history["val_accuracy"])
-    plt.title("model accuracy")
-    plt.ylabel("accuracy")
-    plt.xlabel("epoch")
-    plt.legend(["train", "val"], loc="lower right")
-    plt.tight_layout()
-    plt.savefig("figures/acc-history.png", dpi=200)
-
-    plt.figure()
+    plt.figure(figsize=(6,4))
     plt.plot(training_history.history["loss"])
     plt.plot(training_history.history["val_loss"])
     plt.title("model loss")
@@ -86,32 +70,49 @@ def plot_history(training_history):
     plt.xlabel("epoch")
     plt.legend(["train", "val"], loc="upper right")
     plt.tight_layout()
-    plt.savefig("figures/loss-history.png", dpi=200)
+    plt.savefig("/home/mia/drone-classification/figures/loss-history.png", dpi=200)
+
+    plt.figure()
+    plt.figure(figsize=(6,4))
+    plt.plot(training_history.history["accuracy"])
+    plt.plot(training_history.history["val_accuracy"])
+    plt.title("model accuracy")
+    plt.ylabel("accuracy")
+    plt.xlabel("epoch")
+    plt.legend(["train", "val"], loc="lower right")
+    plt.tight_layout()
+    plt.savefig("/home/mia/drone-classification/figures/acc-history.png", dpi=200)
+
 
 
 def cal_confusion_matrix(y_test, y_pred, f):
     print("number of tests: ", len(y_test))
     print("Confusion Matrix: ")
-    mcm = multilabel_confusion_matrix(y_test, y_pred)
+    # mcm = multilabel_confusion_matrix(y_test, y_pred)
+
+    lables = ['David_Tricopter','Matrice200','Matrice200_V2','Mavic_Air2', 'Mavic_Mini1',
+              'Mavic_Mini2', 'Mavic2pro', 'Mavic2s', 'Phantom2','Phantom4', 
+              'Tello_TT', 'EvoII', 'PhenoBee', 'Splash3_plus',
+              'X5SW', 'X5UW', 'X20', 'X20P', 'UDIU46', 'Yuneec',
+              ]  
+    mcm = confusion_matrix(np.asarray(y_test).argmax(axis=1), np.asarray(y_pred).argmax(axis=1))
     print(mcm)
-
     
-    # f.write(str(mcm))
-    # print('Accuracy: %.3f' % accuracy_score(y_test, y_pred))
-    # # print('Recall: %.3f' % recall_score(y_test, y_pred, pos_label='drones'))
-    # # print('Precision: %.3f' % precision_score(y_test, y_pred, pos_label='drones'))
-    # # print('F1 Score: %.3f' % f1_score(y_test, y_pred, pos_label='drones'))
-    # print('Recall: %.3f' % recall_score(y_test, y_pred))
-    # print('Precision: %.3f' % precision_score(y_test, y_pred))
-    # print('F1 Score: %.3f' % f1_score(y_test, y_pred))
 
-    # print("***********************")
-    # precision, recall, fscore, support = score(y_test, y_pred)
+    sns.set(rc={'figure.figsize':(18, 15)})
+    ax= plt.subplot()
+    sns.heatmap(mcm, annot=True, fmt='g', ax=ax)
+    
 
-    # print("precision:", precision)
-    # print("recall:", recall)
-    # print("fscore:", fscore)
-    # print("support:", support)
+    # labels, title and ticks
+    ax.set_xlabel('Predicted labels')
+    ax.set_ylabel('True labels')
+    ax.set_title('Confusion Matrix')
+    ax.xaxis.set_ticklabels(lables, rotation=90, ha='right'); ax.yaxis.set_ticklabels(lables, rotation=0, ha='right')
+    
+    # plt.show()
+    plt.savefig('/home/mia/drone-classification/figures/cm2224.png', dpi=200)
+
 
     report_str = classification_report(
         y_test,
@@ -136,34 +137,21 @@ def cal_confusion_matrix(y_test, y_pred, f):
             "16",
             "17",
             "18",
+            "19",
         ],
     )
     print(report_str)
-
     acc_str = str(accuracy_score(y_test, y_pred))
     print("Accuracy:", acc_str)
 
     y_str = ""
-    # for y_p, y_t in zip(y_pred, y_test):
-    #     y_str += "Pred: ["
-    #     for p in y_p:
-    #         y_str = y_str + str(p) + ","
-    #     y_str = y_str + "]\n"
-    #     y_str += "True: ["
-    #     for t in y_t:
-    #         y_str = y_str + str(t) + ","
-    #     y_str = y_str + "]\n\n"
 
     log_str = "\n" + report_str + "\nAccuracy: " + acc_str + "\n" + y_str
     f.write(log_str)
 
 
 if __name__ == "__main__":
-    # training set statistic summary
-
     # load data and apply preprocessing method
-    # x, y = dataloader.load_dataset(dataset="aira-uas", feature="stft_chroma")
-    # x, y = dataloader.load_dataset(dataset="droneaudiodataset/binary_drone_audio", feature="mel")
     x, y = dataloader.load_dataset(
         dataset="Drone_Dataset/1006_20_classes", feature="mfcc"
     )
@@ -173,7 +161,7 @@ if __name__ == "__main__":
     print(num_of_classes)
     y = keras.utils.to_categorical(y, num_classes=num_of_classes)
 
-    f = open("/home/mia/drone-classification/03-06-23/run1.log", "w")
+    f = open("/home/mia/drone-classification/03-06-23/run5.log", "w")
     loss_list, acc_list, time_list = [], [], []
     for i in range(1, 2):
         # training and testing set split
@@ -191,7 +179,7 @@ if __name__ == "__main__":
         )
         keras.utils.plot_model(
             model,
-            to_file="figures/keras-model.png",
+            to_file="/home/mia/drone-classification/figures/keras-model.png",
             show_shapes=True,
             show_layer_names=False,
             rankdir="TB",
@@ -200,8 +188,8 @@ if __name__ == "__main__":
 
         f.write("\nRun " + str(i) + "\n")
         start_time = time.time()
-        history = model.fit(x_train, y_train, validation_split=0.2, epochs=0)
-        plot_history(history)
+        history = model.fit(x_train, y_train, validation_split=0.2, epochs=50)
+        
         # history = training(model, x_train, y_train, epochs=100)
         end_time = time.time()
         time_list.append(end_time - start_time)
@@ -212,6 +200,9 @@ if __name__ == "__main__":
         y_pred = model.predict(x_test)
         y_pred = np.around(y_pred)
         cal_confusion_matrix(y_test, y_pred, f)
+
+
+        plot_history(history)
 
         loss, acc = model.evaluate(x_test, y_test)
         print("Test loss:", loss)
